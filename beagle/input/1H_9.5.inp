@@ -11,7 +11,7 @@
 * projectile / target
 * -------------------
 PROJPAR                                                               ELECTRON
-TARPAR          6      6
+TARPAR          1      0
 TAUFOR          9.0        25.0       1.0
 FERMI           2          0.62       1        0
 * random number
@@ -28,7 +28,7 @@ PARDECAY            2
 *DIFFRACT         -3         0         0         0
 * lepton tagger to sample events with certain kinematics cuts
 *		yMin      yMax    Q2Min    Q2Max   theta_Min theta_Max 
-L-TAG           0.45      0.55      3.6    6.7       0.264      0.328
+L-TAG           0.72      0.77      6.0    9.3       0.483      0.547
 *VDM-PAR2           1        1         0
 * model selection
 USERSET          15           9.0
