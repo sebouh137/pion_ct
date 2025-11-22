@@ -11,7 +11,7 @@
 * projectile / target
 * -------------------
 PROJPAR                                                               ELECTRON
-TARPAR          2      1
+TARPAR          2.0      1.0
 TAUFOR          9.0        25.0       1.0
 FERMI           2          0.62       1        0
 * random number
