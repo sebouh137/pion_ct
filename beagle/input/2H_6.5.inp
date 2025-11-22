@@ -21,7 +21,7 @@ OUTPUT           92
 * energy of interaction
 * ---------------------
 *	     momentum of beam1||momentum of beam2
-MOMENTUM         11.0       0 
+MOMENTUM         10.7       0 
 *	decay of pi0  2/0  decay/not decayed   
 PARDECAY            2
 *	treatment of diffractive events

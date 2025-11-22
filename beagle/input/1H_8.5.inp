@@ -11,7 +11,7 @@
 * projectile / target
 * -------------------
 PROJPAR                                                               ELECTRON
-TARPAR          1      0
+TARPAR          1      1
 TAUFOR          9.0        25.0       1.0
 FERMI           2          0.62       1        0
 * random number
@@ -34,7 +34,7 @@ L-TAG           0.79      0.83      6.9    10.3       0.609      0.673
 USERSET          15           9.0
 MODEL                                                                 PYTHIA  
 * if PYTHIA model specify pythia input cards
-PY-INPUT                                                              eDS1noq
+PY-INPUT                                                              eAS1noq
 * PHOJET-specific input
 * ---------------------
 * The following lines control the event-generation with PHOJET for
