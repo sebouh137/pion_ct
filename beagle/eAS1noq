@@ -8,7 +8,7 @@ F2PY,1998         ! F2-Model, R-Parametrisation
 101		  ! USED LO - nuclear pdf parameter2: correction order x*100+y x= 1:LO, 2:NLO y:error set
 1		    ! switch for quenching 1:on, 0:off
 0.0		    ! QHAT value
-FSEED 1234567                    !- only use fixed seed for debugging
+! FSEED 1234567                    !- only use fixed seed for debugging
 ! PMAS(4,1)=1.27    ! charm mass
 MSEL=2
 mstp(14)=30
