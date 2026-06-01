@@ -141,7 +141,7 @@ with open(infile,"r") as inf, open(outfile,"w")	as outf:
                     Syx,Syy,Syz=(Szy*Sxz-Szz*Sxy),(Szz*Sxx-Szx*Sxz),(Szx*Sxy-Szy*Sxx)
                     #print(Sxx**2+Sxy**2+Sxz**2, Szx**2+Szy**2+Szz**2, Syx**2+Syy**2+Syz**2, Sxx*Szx+Sxy*Szy+Sxz*Szz, Syx*Szx+Syy*Szy+Syz*Szz, Sxx*Syx+Sxy*Syy+Sxz*Syz)
                     
-                    phih=np.atan2(px_pi*Syx+py_pi*Syy+pz_pi*Syz, px_pi*Sxx+py_pi*Sxy+pz_pi*Sxz)
+                    phih=np.arctan2(px_pi*Syx+py_pi*Syy+pz_pi*Syz, px_pi*Sxx+py_pi*Sxy+pz_pi*Sxz)
                     
                     pt2=px_pi**2+py_pi**2+pz_pi**2-(qx*px_pi+qy*py_pi+qz*pz_pi)**2/q2
                     print(f"{x:.4f},{Q2:.4f},{np.sqrt(miss_mass2):.4f},{phih:.4f},{pt2:.4f},{secondary_pips},{secondary_pims},{secondary_pizs},{secondary_esum:.5f},{accepted}", file=outf)
