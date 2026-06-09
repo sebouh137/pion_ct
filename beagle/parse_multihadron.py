@@ -31,7 +31,7 @@ for a in 'p_pi','th_pi','p_e','th_e':
     #    th>acc.min_th_pi[kin_i] and th<acc.max_th_pi[kin_i]:
 
 with open(infile,"r") as inf, open(outfile,"w")	as outf:
-    print("x,Q2,miss_mass,phih,pt2,secondary_pips,secondary_pims,secondary_pizs,secondary_esum,accepted", file=outf)
+    print("x,Q2,W,miss_mass,phih,pt2,t,secondary_pips,secondary_pims,secondary_pizs,secondary_esum,accepted", file=outf)
     secondary_pips=0
     secondary_pims=0
     secondary_pizs=0
@@ -120,8 +120,9 @@ with open(infile,"r") as inf, open(outfile,"w")	as outf:
                     theta_e=electron_kin[4]
                     Q2=4*Ebeam*E_e*np.sin(theta_e/2)**2
                     x=Q2/(2*.9383*(Ebeam-E_e))
-                    px_pi,py_pi,pz_pi=pion_kin[1:4]
-                    px_e,py_e,pz_e=electron_kin[1:4]
+                    W=np.sqrt(-Q2+.9383**2+2*.9383*(Ebeam-E_e));
+                    E_pi,px_pi,py_pi,pz_pi=pion_kin[0:4]
+                    E_e,px_e,py_e,pz_e=electron_kin[0:4]
 
                     
                     #get the transformation to get phih
@@ -144,6 +145,9 @@ with open(infile,"r") as inf, open(outfile,"w")	as outf:
                     phih=np.arctan2(px_pi*Syx+py_pi*Syy+pz_pi*Syz, px_pi*Sxx+py_pi*Sxy+pz_pi*Sxz)
                     
                     pt2=px_pi**2+py_pi**2+pz_pi**2-(qx*px_pi+qy*py_pi+qz*pz_pi)**2/q2
-                    print(f"{x:.4f},{Q2:.4f},{np.sqrt(miss_mass2):.4f},{phih:.4f},{pt2:.4f},{secondary_pips},{secondary_pims},{secondary_pizs},{secondary_esum:.5f},{accepted}", file=outf)
+
+                    t=-Q2+.1396**2-2*(Ebeam-E_e)*E_pi+2*(qx*px_pi+qy*py_pi+qz*pz_pi)
+                    
+                    print(f"{x:.4f},{Q2:.4f},{W:.4f},{np.sqrt(miss_mass2):.4f},{phih:.4f},{pt2:.4f},{t:.4f},{secondary_pips},{secondary_pims},{secondary_pizs},{secondary_esum:.5f},{accepted}", file=outf)
             electron_kin, pion_kin, secondary_pips,secondary_pims,secondary_pizs,secondary_esum,accepted=None, None, 0,0,0,0,0
             
