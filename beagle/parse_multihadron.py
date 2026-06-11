@@ -124,11 +124,13 @@ with open(infile,"r") as inf, open(outfile,"w")	as outf:
                     E_pi,px_pi,py_pi,pz_pi=pion_kin[0:4]
                     E_e,px_e,py_e,pz_e=electron_kin[0:4]
 
+                    #print("mpi=",np.sqrt(E_pi**2-px_pi**2-py_pi**2-pz_pi**2))
                     
                     #get the transformation to get phih
                     # note:  in BeAGLE, the electron beam is in the -z direction.  
                     qx,qy,qz=-px_e,-py_e,-Ebeam-pz_e
 
+                    print('this should be zero', qx**2+qy**2+qz**2-(Ebeam-E_e)**2-Q2)
                     #print(f"{180/np.pi*np.atan2(np.hypot(qx,qy),qz):.3f}\t{theta_pi*180/np.pi:.3f}")
                     
                     qdote=qx*px_e+qy*py_e+qz*pz_e
