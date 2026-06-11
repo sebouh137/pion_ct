@@ -30,12 +30,9 @@ for Q2 in "5.0", "6.5", "7.5", "8.5":
             r=(a.quantile(0.003), a.quantile(0.997)) if var != "phih" else (-np.pi,np.pi)
             y,x,_= plt.hist(a, range=r, bins=100, histtype='step')
             bc=(x[1:]+x[:-1])/2
-            if var != "phih":
-                fnc=lambda x,*p : np.polyval(p,x)
-            elif var!="miss_mass":
-                fnc=lambda x, *p : np.sum([p[i]*np.cos(i*x) for i in range(len(p))], axis=0)
-            else :
-                fnc=lambda x,*p : np.polyval(p,x-mA)
+            
+            fnc=lambda x,*p : np.polyval(p,x)
+            
             p0=[0]*(order+1)
             P, cov=curve_fit(fnc, bc,y, p0, np.sqrt(y)+(y==0))
             plt.plot(x,fnc(x,*P))
