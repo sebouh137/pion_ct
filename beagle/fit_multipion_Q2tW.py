@@ -9,7 +9,7 @@ try:
     os.mkdir(outdir)
 except : pass
 order=6;
-f=open("fits/fits_Q2tW.csv","w")
+f=open("fits_Q2tW.csv","w")
 pdf=PdfPages('fits_Q2tW.pdf')
 print("Q2,targ,var,min,max,"+",".join(f"p{i}" for i in range(order+1)),file=f)
 for Q2 in "5.0", "6.5", "7.5", "8.5":
