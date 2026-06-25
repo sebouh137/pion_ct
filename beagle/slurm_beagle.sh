@@ -1,12 +1,14 @@
 #!/bin/bash
+#SBATCH --time=02:00:00
+#SBATCH --mem-per-cpu=4000
 #SBATCH --job-name=beagle
 #SBATCH --array=0-159       # 160 jobs
-#SBATCH --output=/volatile/spaul/pion_ct/logs/job_%A_%a.out
-#SBATCH --error=/volatile/spaul/pion_ct/logs/job_%A_%a.err
+#SBATCH --output=/work/hallc/e1206107/spaul/pion_ct/logs/job_%A_%a.out
+#SBATCH --error=/work/hallc/e1206107/spaul/pion_ct/logs/job_%A_%a.err
 
 # run this file via sbatch slurm_beagle.sh
 
-set -euo pipefail
+######  set -euo pipefail
 
 # Example: decode array ID → (i, targ, j)
 files_per_setting=10
@@ -23,18 +25,18 @@ j=$(( rem % files_per_setting + 1 ))
 targ=${targs[$targ_index]}
 Q2=${Q2s[$i]}
 
-
+cd /home/spaul/pion_ct/beagle
 source SDCC_setup.sh
 source beagle_setup.sh
 mkdir parsed
 
 
-tmpdir=/volatile/hallc/spaul/pion_ct/${targ}_${Q2}_${j}/
+tmpdir=/work/hallc/e1206107/spaul/pion_ct/beagle_output/${targ}_${Q2}_${j}/
 mkdir -p $tmpdir
-cp nuclear.bin fort.* eAsnoq input/${targ}_${Q2}.inp $tmpdir
+cp nuclear.bin fort.* eAS1noq input/${targ}_${Q2}.inp $tmpdir
 
 cd $tmpdir
-$BEAGLESYS/BeAGLE < ${targ}_${Q2}.inp
+$BEAGLESYS/BeAGLE < ${targ}_${Q2}.inp > log.txt 2> log.err
 cd -
 python parse_multihadron.py $tmpdir/OUTFILE.txt parsed/${targ}_${Q2}_${j}.csv $i $targ
 

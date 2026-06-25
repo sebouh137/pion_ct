@@ -6,12 +6,21 @@ kin_i=int(sys.argv[3])
 A=sys.argv[4]
 if A=='1H':
     mA=0.9383
+    Z=1
+    N=0
 elif A=='2H':
     mA=1.875612945
+    Z=1
+    N=1
 elif A=="12C":
     mA=11.178
+    Z=6
+    N=6
 elif A=='63Cu':
     mA=58.602
+    Z=29
+    N=34
+    
 else:
     print("error:  unknown target")
     exit(0)
@@ -30,8 +39,25 @@ for a in 'p_pi','th_pi','p_e','th_e':
     #P>acc.min_p_pi[kin_i] and P<acc.max_p_pi[kin_i] and\
     #    th>acc.min_th_pi[kin_i] and th<acc.max_th_pi[kin_i]:
 
+logfile=infile[:infile.rfind("/")+1]+"/log.txt"
+print(logfile)
+ub_en=None
+ub_ep=None
+with open(logfile,"r") as logf:
+    for line in logf:
+        if "microbarn" in line:
+            if ub_en is None and N!=0:
+                ub_en=float(line.split()[-2])
+            else:
+                ub_ep=float(line.split()[-2])
+                break;
+
+print(ub_en, ub_ep)
+if N==0:
+    ub_en=0
+
 with open(infile,"r") as inf, open(outfile,"w")	as outf:
-    print("x,Q2,W,miss_mass,phih,pt2,t,secondary_pips,secondary_pims,secondary_pizs,secondary_esum,accepted", file=outf)
+    print("x,Q2,W,miss_mass,phih,pt2,t,secondary_pips,secondary_pims,secondary_pizs,secondary_esum,accepted,weight_ub", file=outf)
     secondary_pips=0
     secondary_pims=0
     secondary_pizs=0
@@ -39,10 +65,21 @@ with open(infile,"r") as inf, open(outfile,"w")	as outf:
     electron_kin=None
     pion_kin=None
     accepted=0
+    weight_ub=0
     for line in inf.readlines():
         split=line.split()
         if len(split)<2:
             continue
+
+        # since half the events are (by construction) en events and half are ep events,
+        # we need to weight the events based on both the cross section and the fraction of
+        # each type of nucleon in that nucleus
+        if len(split)>12 and split[12]=="2112":
+            weight_ub=ub_en*2*N/(Z+N)
+        if len(split)>12 and split[12]=="2212":
+            weight_ub=ub_ep*2*Z/(Z+N)
+        
+        
         is_electron= split[1]=='1' and split[2]=='11'
         is_pion= (split[1]=='1' and (split[2] == '211' or split[2] == '-211')) or (split[1]=='2' and split[2] == '111')
 
@@ -130,7 +167,7 @@ with open(infile,"r") as inf, open(outfile,"w")	as outf:
                     # note:  in BeAGLE, the electron beam is in the -z direction.  
                     qx,qy,qz=-px_e,-py_e,-Ebeam-pz_e
 
-                    print('this should be zero', qx**2+qy**2+qz**2-(Ebeam-E_e)**2-Q2)
+                    #print('this should be zero', qx**2+qy**2+qz**2-(Ebeam-E_e)**2-Q2)
                     #print(f"{180/np.pi*np.atan2(np.hypot(qx,qy),qz):.3f}\t{theta_pi*180/np.pi:.3f}")
                     
                     qdote=qx*px_e+qy*py_e+qz*pz_e
@@ -150,6 +187,6 @@ with open(infile,"r") as inf, open(outfile,"w")	as outf:
 
                     t=-Q2+.1396**2-2*(Ebeam-E_e)*E_pi+2*(qx*px_pi+qy*py_pi+qz*pz_pi)
                     
-                    print(f"{x:.4f},{Q2:.4f},{W:.4f},{np.sqrt(miss_mass2):.4f},{phih:.4f},{pt2:.4f},{t:.4f},{secondary_pips},{secondary_pims},{secondary_pizs},{secondary_esum:.5f},{accepted}", file=outf)
+                    print(f"{x:.4f},{Q2:.4f},{W:.4f},{np.sqrt(miss_mass2):.4f},{phih:.4f},{pt2:.4f},{t:.4f},{secondary_pips},{secondary_pims},{secondary_pizs},{secondary_esum:.5f},{accepted},{weight_ub}", file=outf)
             electron_kin, pion_kin, secondary_pips,secondary_pims,secondary_pizs,secondary_esum,accepted=None, None, 0,0,0,0,0
             
