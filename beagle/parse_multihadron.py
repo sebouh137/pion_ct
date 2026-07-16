@@ -132,6 +132,8 @@ with open(infile,"r") as inf, open(outfile,"w")	as outf:
                 r=random.Random()
                 phi_e_rot=phi_e
                 count=0 #if you can't get the oop thing to work, skip the event
+
+                phi_window=np.sin(theta_e_central)*(2*acc.max_oop_e[kin_i])
                 while True:
                     phi_e_rot=2*np.sin(theta_e_central)*r.uniform(-acc.max_oop_e[kin_i], acc.max_oop_e[kin_i])
                     #oop_electron=np.arccos(np.sin(theta_e)*np.cos(phi_e_rot)*np.sin(theta_e_central)+np.cos(theta_e)*np.cos(theta_e_central))
@@ -187,6 +189,6 @@ with open(infile,"r") as inf, open(outfile,"w")	as outf:
 
                     t=-Q2+.1396**2-2*(Ebeam-E_e)*E_pi+2*(qx*px_pi+qy*py_pi+qz*pz_pi)
                     
-                    print(f"{x:.4f},{Q2:.4f},{W:.4f},{np.sqrt(miss_mass2):.4f},{phih:.4f},{pt2:.4f},{t:.4f},{secondary_pips},{secondary_pims},{secondary_pizs},{secondary_esum:.5f},{accepted},{weight_ub}", file=outf)
+                    print(f"{x:.4f},{Q2:.4f},{W:.4f},{np.sqrt(miss_mass2):.4f},{phih:.4f},{pt2:.4f},{t:.4f},{secondary_pips},{secondary_pims},{secondary_pizs},{secondary_esum:.5f},{accepted},{weight_ub*phi_window/(2*np.pi):e}", file=outf)
             electron_kin, pion_kin, secondary_pips,secondary_pims,secondary_pizs,secondary_esum,accepted=None, None, 0,0,0,0,0
             
