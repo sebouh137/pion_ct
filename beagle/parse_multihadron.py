@@ -16,10 +16,10 @@ elif A=="12C":
     mA=11.178
     Z=6
     N=6
-elif A=='63Cu':
-    mA=58.602
+elif A=='63Cu': # not actually pure 63Cu.  ~69% 63Cu and 31% 65Cu.  
+    mA=58.602*.69+60.47*.31
     Z=29
-    N=34
+    N=34*.69+36*.31
     
 else:
     print("error:  unknown target")
@@ -57,7 +57,7 @@ if N==0:
     ub_en=0
 
 with open(infile,"r") as inf, open(outfile,"w")	as outf:
-    print("x,Q2,W,miss_mass,phih,pt2,t,secondary_pips,secondary_pims,secondary_pizs,secondary_esum,accepted,weight_ub", file=outf)
+    print("x,Q2,W,miss_mass,phih,pt2,t,secondary_pips,secondary_pims,secondary_pizs,secondary_esum,accepted,weight_ub,Ebeam,e_p,e_th,e_ph,pi_p,pi_th,pi_ph", file=outf)
     secondary_pips=0
     secondary_pims=0
     secondary_pizs=0
@@ -189,6 +189,6 @@ with open(infile,"r") as inf, open(outfile,"w")	as outf:
 
                     t=-Q2+.1396**2-2*(Ebeam-E_e)*E_pi+2*(qx*px_pi+qy*py_pi+qz*pz_pi)
                     
-                    print(f"{x:.4f},{Q2:.4f},{W:.4f},{np.sqrt(miss_mass2):.4f},{phih:.4f},{pt2:.4f},{t:.4f},{secondary_pips},{secondary_pims},{secondary_pizs},{secondary_esum:.5f},{accepted},{weight_ub*phi_window/(2*np.pi):e}", file=outf)
+                    print(f"{x:.4f},{Q2:.4f},{W:.4f},{np.sqrt(miss_mass2):.4f},{phih:.4f},{pt2:.4f},{t:.4f},{secondary_pips},{secondary_pims},{secondary_pizs},{secondary_esum:.5f},{accepted},{weight_ub*phi_window/(2*np.pi):e},{Ebeam:.3f},{E_e:.6f},{theta_e:.6f},{phi_e:.6f},{np.sqrt(E_pi**2-.1396**2):.6f},{theta_pi:.6f},{phi_pi:.6f}", file=outf)
             electron_kin, pion_kin, secondary_pips,secondary_pims,secondary_pizs,secondary_esum,accepted=None, None, 0,0,0,0,0
             
