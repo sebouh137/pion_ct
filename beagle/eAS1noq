@@ -1,7 +1,7 @@
 'OUTFILE.txt' ! output file name
 1e-06, 1.00       ! xmin and xmax
 F2PY,1998         ! F2-Model, R-Parametrisation
-0                 ! switch for rad corrections; 0:no, 1:yes, 2:gen.lookup table 
+1                 ! switch for rad corrections; 0:no, 1:yes, 2:gen.lookup table 
 1                 ! Pythia-Model = 0 standard GVMD generation in Pythia-x and Q2; = 1 GVMD model with generation in y and Q2 as for radgen
 1,1               ! A-Tar and Z-Tar
 1                 ! switch for shadowing: genShd
